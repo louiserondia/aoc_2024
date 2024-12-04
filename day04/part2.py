@@ -4,9 +4,7 @@ def move(c, d):
     return (c[0] + d[0], c[1] + d[1])
 
 def look_around(coord, grid):
-    s = ""
-    for d in dirs:
-        s += grid.get(move(coord, d), grid[coord])
+    s = "".join(grid.get(move(coord, d), grid[coord]) for d in dirs)
     return s in {"MMSS", "SMMS", "SSMM", "MSSM"}
 
 with open("input.txt", "r") as f:

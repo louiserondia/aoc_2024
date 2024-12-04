@@ -6,11 +6,8 @@ def move(c, d):
 def look_around(coord, grid):
     r = 0
     for d in dirs:
-        s = ""
         n = coord
-        for _ in range(3):
-            n = move(n, d)
-            s += grid.get(n, grid[coord])
+        s = "".join(grid.get((n := move(n, d)), grid[coord]) for _ in range(3))
         if s == "MAS":
             r += 1
     return r
