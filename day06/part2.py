@@ -1,11 +1,13 @@
 
 def p(data, guard, path, d):
+    np = path.copy()
     while guard + d in data:
         if data[guard + d] == '#': d *= 1j
         else:
             guard += d
-            if (guard, d) in path or ((guard, d * 1j) in path and data[guard + d] == '#'):
+            if (guard, d) in np:
                 return 1
+            np.add((guard, d))
     return 0
 
 def s(data, guard):
