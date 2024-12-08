@@ -1,4 +1,4 @@
-def s(data, guard):
+def solve(data, guard):
     d = -1j
     r = {guard}
     while guard + d in data:
@@ -12,4 +12,4 @@ with open("input.txt", 'r') as f:
     data = {complex(x, y): e for y, row in enumerate(data) for x, e in enumerate(row)}
     start = next(i for i in data if data[i]=="^")
 
-    print(s(data, start))
+    print(solve(data, start))
