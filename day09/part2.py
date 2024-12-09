@@ -4,8 +4,7 @@ def find_first_spot(array, size):
         if e == -1: s += 1
         else: s = 0
         if s == size: return i - size + 1
-    return 0
-
+    return -1
 
 with open("input.txt") as f:
     data = list(map(int, f.read()))
@@ -19,7 +18,8 @@ with open("input.txt") as f:
         if e == old_e:
             size += 1
         elif old_e != -1:
-            if index := find_first_spot(array[:len(array) - i:], size):
+            index = find_first_spot(array[:len(array) - i:], size)
+            if index != -1:
                 for j in range(size):
                     array[len(array) - i + j], array[index + j] = -1, old_e
         if e != old_e:
