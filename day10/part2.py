@@ -10,10 +10,6 @@ with open("input.txt") as f:
             return 1
         else:
             return sum(paths(z + (1j ** n), cache | {z}, data[z]) for n in range(4))
-
-    r = 0
-    for z in data.keys():
-        if data[z] == 0:
-            r += paths(z, set(), -1)
-
+        
+    r = sum(paths(z, set(), -1) for z in data.keys() if data[z] == 0)
     print(r)

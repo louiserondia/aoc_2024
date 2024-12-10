@@ -9,16 +9,7 @@ with open("input.txt") as f:
         elif data[z] == 9:
             return {z}
         else:
-            d = -1j
-            res = set()
-            for _ in range(4):
-                res |= paths(z + d, cache | {z}, data[z])
-                d *= 1j
-            return res
-
-    r = 0
-    for z in data.keys():
-        if data[z] == 0:
-            r += len(paths(z, set(), -1))
-
+            return set().union(*(paths(z + (1j ** n), cache | {z}, data[z]) for n in range(4)))
+        
+    r = sum(len(paths(z, set(), -1)) for z in data.keys() if data[z] == 0)
     print(r)
