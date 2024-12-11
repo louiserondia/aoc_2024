@@ -1,0 +1,18 @@
+cache = {}
+
+def solve(e, i):
+    if i == 0:
+        return 1
+    if (e, i) in cache: 
+        return cache[(e, i)]
+    if e == 0:
+        return cache.setdefault((e, i), solve(1, i - 1))
+    elif not len(str(e)) % 2:
+        l = len(str(e)) // 2 
+        return cache.setdefault((e, i), solve(int(str(e)[l:]), i - 1) + solve(int(str(e)[:l]), i - 1))
+    return cache.setdefault((e, i), solve(e * 2024, i - 1) )
+
+with open("input.txt") as f:
+    data = list(map(int, f.read().split()))
+    r = sum(solve(e, 75) for e in data)
+    print(r)
