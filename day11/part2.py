@@ -6,7 +6,7 @@ def solve(e, i):
         return 1
     if e == 0:
         return solve(1, i - 1)
-    elif not len(str(e)) % 2:
+    if not len(str(e)) % 2:
         l = len(str(e)) // 2 
         return solve(int(str(e)[l:]), i - 1) + solve(int(str(e)[:l]), i - 1)
     return solve(e * 2024, i - 1)
