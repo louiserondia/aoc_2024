@@ -1,6 +1,5 @@
 print("mercredi je crois aux fantomes")
 cache = set()
-DIRS = [1j, 1, -1j, -1]
 
 with open("input.txt") as f:
     data = f.read().split()
