@@ -3,26 +3,25 @@ import itertools
 c = itertools.count()
 
 def dijkstra(start, end):
-    open_set = [(0, next(c), start, 1, [])]
+    open_set = [(0, next(c), start, 1, [start])]
     closed_set = {}
-    paths = set()
-    best_score = float('inf')
 
     while open_set:
         score, _, tile, d, path = heapq.heappop(open_set)
         if tile == end:
-            print(score)
             paths = set(path + [tile])
-            # print('--->', open_set, '\n\n')
-            print('--->', heapq.nsmallest(3, open_set), '\n\n')
+            while open_set[0][0] == score:
+                for p in heapq.heappop(open_set)[-1]:
+                    paths.add(p)
             return len(paths)
+
         if tile not in closed_set:
-            closed_set[tile] = (score, path + [tile])
+            closed_set[(tile, d)] = (score, path + [tile])
 
-
-        if data[tile + d] != '#' and tile + d not in closed_set:
-            heapq.heappush(open_set, (score + 1, next(c), tile + d, d, path + [tile]))
+        if data[tile + d] != '#' and (tile + d, d) not in closed_set:
+            heapq.heappush(open_set, (score + 1, next(c), tile + d, d, path + [tile + d]))
         for n in [1j, -1j]:
+            if (tile, d * n) not in closed_set:
                 heapq.heappush(open_set, (score + 1000, next(c), tile, d * n, path))
 
 with open('input.txt') as f:
