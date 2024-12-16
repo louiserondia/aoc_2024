@@ -11,7 +11,8 @@ def dijkstra(start, end):
         if tile == end:
             paths = set(path + [tile])
             while open_set[0][0] == score:
-                for p in heapq.heappop(open_set)[-1]:
+                pop = heapq.heappop(open_set)
+                for p in pop[-1] if pop[2] == end else None:
                     paths.add(p)
             return len(paths)
 
