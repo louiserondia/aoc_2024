@@ -13,16 +13,17 @@ def dijkstra(start, end):
         if tile == end:
             print(score)
             paths = set(path + [tile])
+            # print('--->', open_set, '\n\n')
             print('--->', heapq.nsmallest(3, open_set), '\n\n')
-            return paths
+            return len(paths)
         if tile not in closed_set:
             closed_set[tile] = (score, path + [tile])
 
-        for n in range(4):
-            nd, ns = d * 1j ** n, score + 1 + (1000 if n else 0)
-            if data[tile + nd] == '#' or (tile + nd in closed_set and closed_set[tile + nd][0] <= ns):
-                continue
-            heapq.heappush(open_set, (ns, next(c), tile + nd, nd, path + [tile]))
+
+        if data[tile + d] != '#' and tile + d not in closed_set:
+            heapq.heappush(open_set, (score + 1, next(c), tile + d, d, path + [tile]))
+        for n in [1j, -1j]:
+                heapq.heappush(open_set, (score + 1000, next(c), tile, d * n, path))
 
 with open('input.txt') as f:
     data = { complex(x, y): e for y, row in enumerate(f.read().split()) for x, e in enumerate(row) }
