@@ -3,22 +3,18 @@ DIRS = [1j, -1j, 1, -1]
 def traverse(data):
     parents = {}
     for k, v in data.items():
-        if v == '.':
-            if k not in parents:
-                parents[k] = k
-            def add(k):
-                for d in DIRS:
-                    if k + d in data and data[k + d] == '.' and k + d not in parents:
-                        parents[k + d] = k
-                        add(k + d)
-            add(k)
+        if v == '.' and k not in parents:
+            parents[k] = k
+            for d in DIRS:
+                if k + d in parents:
+                    union(k + d, k, parents)
     return parents
 
-def add_parent(pos, parents, data):
-    parents[pos] = pos
+def add_parent(x, parents):
+    parents[x] = x
     for d in DIRS:
-        if pos + d in data and data[pos + d] != '#':
-            union(pos, pos + d, parents)
+        if x + d in parents:
+            union(x, x + d, parents)
 
 def find(x, parents):
     return find(parents[x], parents) if parents[x] != x else x
@@ -34,7 +30,7 @@ with open('input.txt') as f:
     parents = traverse(data)
     for b in byte[::-1]:
         data[b] = '.'
-        add_parent(b, parents, data)
+        add_parent(b, parents)
         if find(complex(0, 0), parents) == find(complex(70, 70), parents):
             print(b)
             break
