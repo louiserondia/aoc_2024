@@ -1,5 +1,4 @@
 from collections import deque 
-from itertools import product
 
 def dijkstra(data):
     open_set = deque([(0, complex(0, 0))])
@@ -17,11 +16,8 @@ def dijkstra(data):
                 closed_set.add(target + d)
 
 with open('input.txt') as f:
-    data = f.read().split('\n')[:1024]
-    data = { complex(int(l.split(',')[0]), int(l.split(',')[1])) : '#' for l in data }
-    for i in product(range(71), range(71), repeat=2):
-        i = complex(i[0], i[1])
-        if i not in data: data[i] = ('.')
-    s = dijkstra(data)
-    print(s)
-    # print(data)
+    data = f.read().splitlines()[:1024]
+    byte = [ complex(int(x), int(y)) for l in data for x, y in [l.split(',')]]
+    data = { complex(x, y): '#' if complex(x, y) in byte else '.' for y in range(71) for x in range(71) }
+
+    print(dijkstra(data))
