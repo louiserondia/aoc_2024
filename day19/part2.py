@@ -1,8 +1,8 @@
-from functools import lru_cache
+import functools
 
 def pattern(o, towels):
     towels = list(filter(lambda t: t in o, towels))
-    @lru_cache(None)
+    @functools.cache
     def f(res):
         if res == o:
             return 1
