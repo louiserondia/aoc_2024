@@ -1,5 +1,3 @@
-from itertools import count
-
 def cheat(score, p, cache):
     if p in cache and cache[p] > score: return cache[p] - score
     t = []
@@ -27,7 +25,7 @@ def traverse(data):
     path = get_path()
     for p in path:
         for nd in [1j, -1j, 1, -1]:
-            if p + nd in data and data[p + nd] == '#' and p + nd not in res:
+            if p + nd in data and data[p + nd] == '#':
                 res += cheat(cache[p] + 1, p + nd, cache)
     return len(path), res
 
@@ -36,5 +34,4 @@ with open('input.txt') as f:
     data = { complex(x, y) : e for y, row in enumerate(data) for x, e in enumerate(row) }
 
     score, res = traverse(data)
-    i = sum(r >= 100 for r in res)
-    print(i)
+    print(sum(r >= 100 for r in res))
