@@ -9,9 +9,9 @@ def routine(n):
 with open('input.txt') as f:
     data = list(map(int, f.read().splitlines()))
 
-    seq = (None,) * 4
     sale_cache = {}
     for i, n in enumerate(data):
+        seq = (None,) * 4
         prev = n % 10
         cache = {}
 
