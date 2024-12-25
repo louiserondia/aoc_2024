@@ -9,7 +9,7 @@ def routine(n):
 with open('input.txt') as f:
     data = list(map(int, f.read().splitlines()))
 
-    sale_cache = {}
+    sale_cache = []
     for i, n in enumerate(data):
         seq = (None,) * 4
         prev = n % 10
@@ -23,10 +23,10 @@ with open('input.txt') as f:
             if None not in seq and seq not in cache:
                 cache[seq] = current
             prev = current
-        sale_cache[i] = cache
+        sale_cache.append(cache)
 
     merged = defaultdict(int)
-    for salesman in sale_cache.values():
+    for salesman in sale_cache:
         for seq, score in salesman.items():
             merged[seq] += score
     
