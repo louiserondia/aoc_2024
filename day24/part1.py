@@ -1,10 +1,7 @@
 from functools import reduce
+import operator
 
-def XOR(v1, v2): return v1 ^ v2
-def OR(v1, v2): return v1 | v2
-def AND(v1, v2): return v1 & v2
-
-OPS = {'XOR': XOR, 'OR': OR, 'AND': AND}
+OPS = {'XOR': operator.xor, 'OR': operator.or_, 'AND': operator.and_}
 
 with open('input.txt') as f:
     info, instructions = f.read().split('\n\n')
@@ -18,5 +15,5 @@ with open('input.txt') as f:
                 instructions.remove(instru)
 
     info = reversed([info[k] for k in sorted(info) if k.startswith('z')])
-    
+
     print(reduce(lambda acc, bit: (acc << 1) + bit, info))
