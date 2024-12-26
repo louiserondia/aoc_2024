@@ -1,8 +1,7 @@
 from collections import defaultdict
 
 with open('input.txt') as f:
-    edges = f.read().splitlines()
-    edges = list(map(lambda l: tuple(l.split('-')), edges))
+    edges = [tuple(line.split('-')) for line in f.read().splitlines()]
 
     neighbours = defaultdict(list)
     for (l, r) in edges:
@@ -14,10 +13,12 @@ with open('input.txt') as f:
     res = []
     def bk(r, p, x):
         global res
+
         if not bool(p) and not bool(x):
             if len(r) > len(res):
                 res = r
             return
+        
         pivot = (p + x)[0]
         for v in filter(lambda e: e not in neighbours[pivot], p):
             next_p = list(filter(lambda n: n in p, neighbours[v]))
