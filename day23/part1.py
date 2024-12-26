@@ -16,5 +16,5 @@ with open('input.txt') as f:
         for c in comb:
             if c[1] in cache[c[0]]:
                 res.add(tuple(sorted((k, c[0], c[1]))))
-    res = list(filter(lambda r: any(e.startswith('t') for e in r), res))
+    res = [r for r in res if any(e.startswith('t') for e in r)]
     print(len(res))
