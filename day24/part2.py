@@ -1,6 +1,6 @@
+import random
 import operator
 from itertools import combinations
-import random
 
 OPS = {'XOR': operator.xor, 'OR': operator.or_, 'AND': operator.and_}
 
