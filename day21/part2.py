@@ -5,7 +5,7 @@ def md(z1, z2):
 
 def move(src, dst, pad, current, res, cache):
     if src == dst:
-        res.add(current)
+        res.append(current)
         return res
     elif src not in pad.values() or src in cache:
         return None
@@ -15,20 +15,24 @@ def move(src, dst, pad, current, res, cache):
     for d in dirs:
         moves = move(src + d, dst, pad, current + DIRS[d], res, [] + cache)
         if moves is not None:
-            res.update(moves)
+            res = res + [m for m in moves if m not in res]
     return res
 
+mem = {}
 def compute(ops, pads, current):
-    if not ops: return current
+    if not ops: return len(current)
     
     current = 'A' + current
+    if mem.get((current, len(ops))):
+        return mem.get((current, len(ops)))
     pad = pads[ops[0]]
     pairs = list(zip(current, current[1:]))
-    res = ''
-    line = [move(pad[p[0]], pad[p[1]], pad, '', set(), []) for p in pairs]
+    res = 0
+    line = [move(pad[p[0]], pad[p[1]], pad, '', [], []) for p in pairs]
     for l in line:
-        rm = min((compute(ops[1:], pads, m + 'A') for m in l), key=len)
+        rm = min((compute(ops[1:], pads, m + 'A') for m in l))      
         res += rm
+    mem[(current, len(ops))] = res
     return res
 
 with open('input.txt') as f:
@@ -38,7 +42,8 @@ with open('input.txt') as f:
 
     r = 0
     for d in data:
-        res = compute([0, 1, 1], [numpad, dirpad], d)
-        r += len(res) * int(d[:-1])
+        res = compute([0] + [1] * 25, [numpad, dirpad], d)
+        print(res)
+        r += res * int(d[:-1])
 
     print(r)
